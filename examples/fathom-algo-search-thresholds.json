@@ -1,0 +1,17 @@
+{
+  "repo": "fathom-algo-search-lab",
+  "thresholds": {
+    "signal": 4,
+    "slack": 2,
+    "confidence": 1,
+    "drag": 3,
+    "ship": 189,
+    "watch": 114
+  },
+  "terms": [
+    "input width",
+    "search depth",
+    "boundary pressure",
+    "complexity"
+  ]
+}
