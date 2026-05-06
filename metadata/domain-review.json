@@ -1,0 +1,73 @@
+{
+  "repo": "fathom-algo-search-lab",
+  "language": "OCaml",
+  "category": "Algorithms",
+  "goal": "Package an OCaml local lab for search analysis with append-only fixtures, checkpoint recovery checks, and documented operating limits.",
+  "review_model": {
+    "terms": [
+      "input width",
+      "search depth",
+      "boundary pressure",
+      "complexity"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "input width",
+      "signal": 62,
+      "slack": 45,
+      "drag": 22,
+      "confidence": 94,
+      "score": 197,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "search depth",
+      "signal": 61,
+      "slack": 34,
+      "drag": 31,
+      "confidence": 82,
+      "score": 145,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "boundary pressure",
+      "signal": 68,
+      "slack": 38,
+      "drag": 29,
+      "confidence": 91,
+      "score": 178,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "complexity",
+      "signal": 87,
+      "slack": 49,
+      "drag": 12,
+      "confidence": 81,
+      "score": 268,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "input width",
+      "signal": 56,
+      "slack": 28,
+      "drag": 22,
+      "confidence": 54,
+      "score": 128,
+      "lane": "watch"
+    }
+  ]
+}

@@ -1,68 +1,40 @@
 # fathom-algo-search-lab
 
-`fathom-algo-search-lab` treats algorithms as a local verification problem. The OCaml implementation is intentionally narrow, but the fixtures and notes make the behavior explicit.
+`fathom-algo-search-lab` is a compact OCaml repository for algorithms, centered on this goal: Package an OCaml local lab for search analysis with append-only fixtures, checkpoint recovery checks, and documented operating limits.
 
-## Fathom Algo Search Lab Checkpoints
+## Reason For The Project
 
-Treat the compact fixture as the contract and the extended examples as a scratchpad. The code should stay boring enough that a change in behavior is obvious from the test output.
+I want this repository to be useful as a quick reading exercise: fixtures first, implementation second, verifier last.
 
-## What This Is For
+## Fathom Algo Search Lab Review Notes
 
-I use this kind of project to make a rule visible before adding more machinery around it. The important part here is not the size of the codebase. It is that the input signals, scoring rule, fixture data, and expected output can all be checked in one sitting.
+`recovery` and `stale` are the cases worth reading first. They show the optimistic and cautious ends of the fixture.
 
-## Architecture Notes
+## What It Does
 
-The interesting part is the boundary between accepted and reviewed scenarios. Extended examples sit near that boundary so future edits can show whether the model became more permissive or more cautious. The OCaml implementation keeps the data record and functions small enough to load directly in the test file.
+- `fixtures/domain_review.csv` adds cases for input width and search depth.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/fathom-algo-search-walkthrough.md` walks through the case spread.
+- The OCaml code includes a review path for `complexity` and `input width`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Case Study
+## How It Is Put Together
 
-`pressure` is the first example I would inspect because it lands on the `review` path with a score of 105. The broader file also keeps `degraded` at -15 and `surge` at 235, which gives the model a useful low-to-high spread.
+The core code exposes a scoring path and the added review layer uses `signal`, `slack`, `drag`, and `confidence`. The domain terms are `input width`, `search depth`, `boundary pressure`, and `complexity`.
 
-## Useful Pieces
+The added OCaml path is deliberately direct, with fixtures doing most of the explaining.
 
-- Uses fixture data to keep complexity tradeoffs changes visible in code review.
-- Includes extended examples for golden cases, including `surge` and `degraded`.
-- Documents boundary checks tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-
-## Tooling
-
-Install OCaml and run the commands from the repository root. The project does not need credentials or a hosted service.
-
-## Quality Gate
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
-
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Project Layout
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Scope
-
-This code is local-first. It makes no claim about deployed usage and avoids credentials, hosted state, and environment-specific setup.
-
-## Expansion Ideas
-
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add one more algorithms fixture that focuses on a malformed or borderline input.
-
-## Local Workflow
+## Run It
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Check It
+
+The check exercises the source code and the review fixture. `recovery` is the high score at 268; `stale` is the low score at 128.
+
+## Boundaries
+
+This remains a local project with deterministic fixtures. It does not depend on credentials, hosted services, or live data. Future work should add richer malformed inputs before widening the public API.
